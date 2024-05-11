@@ -35,3 +35,11 @@ Route::get('articles/{article}', 'App\Http\Controllers\ArticleController@show');
 Route::post('articles', 'App\Http\Controllers\ArticleController@store');
 Route::put('articles/{article}', 'App\Http\Controllers\ArticleController@update');
 Route::delete('articles/{article}', 'App\Http\Controllers\ArticleController@delete');
+
+//Product
+Route::get('products/{user_id}', 'App\Http\Controllers\ProductController@index');
+Route::get('products/show/{id}', 'App\Http\Controllers\ProductController@show');
+
+//Client
+Route::get('client/{user_id}', 'App\Http\Controllers\ProductController@index');
+Route::get('client/show/{id}', 'App\Http\Controllers\ProductController@show');

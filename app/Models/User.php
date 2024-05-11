@@ -23,7 +23,16 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'mobile_phone',
+        'job_title',
+        'office_phone',
+        'address',
+        'city',
+        'country',
+        'postal_code',
+        'photo'
     ];
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -61,5 +70,21 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function sales(){
+        return $this->hasMany(Sales::class);
+    }
+
+    public function client(){
+        return $this->hasMany(Client::class);
+    }
+
+    public function product(){
+        return $this->hasMany(Product::class);
+    }
+
+    public function supplier(){
+        return $this->hasMany(Supplier::class);
     }
 }
