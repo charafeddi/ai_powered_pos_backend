@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 // JWT contract
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -72,19 +72,27 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function sales(){
-        return $this->hasMany(Sales::class);
+    public function sale():HasMany
+    {
+        return $this->hasMany(Sale::class);
     }
 
-    public function client(){
+    public function client():HasMany
+    {
         return $this->hasMany(Client::class);
     }
 
-    public function product(){
+    public function product():HasMany
+    {
         return $this->hasMany(Product::class);
     }
 
-    public function supplier(){
+    public function supplier():HasMany
+    {
         return $this->hasMany(Supplier::class);
+    }
+    public function todo():HasMany
+    {
+        return $this->hasMany(Todo::class);
     }
 }

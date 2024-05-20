@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('designation');
             $table->integer('quantity');
             $table->decimal('prix_achat', 8, 2);
-            $table->decimal('prix_vente', 8, 2);
+            $table->decimal('prix_vente', 8, 2)->nullable();
             $table->decimal('discount', 5, 2)->nullable();
             $table->timestamps();
             $table->bigInteger('product_type_id')->unsigned();
@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->bigInteger('supplier_id')->unsigned()->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null');
 
-            $table->bigInteger('product_unit_id')->unsigned();
+            $table->bigInteger('product_unit_id')->unsigned()->nullable();
             $table->foreign('product_unit_id')->references('id')->on('products_unit');
 
             $table->bigInteger('user_id')->unsigned();

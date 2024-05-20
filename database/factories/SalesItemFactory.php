@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\SalesItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SalesItemFactory extends Factory
@@ -22,15 +23,10 @@ class SalesItemFactory extends Factory
     public function definition()
     {
         return [
-            'quantity' => $faker->randomNumber(3),
-            'unit_price' => $faker->randomFloat(2, 1, 100),
-            'subtotal' => $faker->randomFloat(2, 1, 1000),
-            'product_id' => function () {
-                return factory(Product::class)->create()->id;
-            },
-            'sale_id' => function () {
-                return factory(Sale::class)->create()->id;
-            },
+            'quantity' => $this->faker->numberBetween(1, 100),
+            'unit_price' => $this->faker->numberBetween(1, 100),
+            'subtotal' => $this->faker-> numberBetween(100, 1000),
+            'product_id' => $this->faker->unique()->randomElement(Product::pluck("id")),
         ];
     }
 }

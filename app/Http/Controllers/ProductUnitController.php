@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProductType;
+use App\Models\ProductUnit;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProductUnitController extends Controller
 {
@@ -15,7 +17,7 @@ class ProductUnitController extends Controller
     public function index()
     {
         //
-        return response()->json(ProductType::all());
+        return response()->json(ProductUnit::all());
     }
 
     /**
@@ -48,7 +50,7 @@ class ProductUnitController extends Controller
     public function show($id)
     {
         //
-        return response()->json(ProductType::find($id));
+        return response()->json(ProductUnit::find($id));
 
     }
 

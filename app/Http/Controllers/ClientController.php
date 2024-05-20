@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -37,6 +38,31 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:suppliers,email,',
+            'phone' => 'required|string|unique:suppliers,phone,',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'country' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+        
+        if($validator ->fails()){
+            return response()->json([
+                'message' => 'Customer validator failed ', 
+                'error' => $validator->errors(),
+                 ],400);
+        }
+
+        Client::create(
+            $validator->validated()
+        );
+
+        return response()->json([
+            'message' => 'Customer successfully registered',
+        ], 201);
     }
 
     /**
@@ -72,6 +98,41 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:suppliers,email,'.$id,
+            'phone' => 'required|string|unique:suppliers,phone,'.$id,
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'country' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+        
+        
+        if($validator ->fails()){
+            return response()->json([
+                'message' => 'Customer validator failed ', 
+                'error' => $validator->errors(),
+            ],400);
+        }
+
+        $client = Client::find($id);
+
+        $client->name = $request->input('name');
+        $client->email = $request->input('email');
+        $client->phone = $request->input('phone');
+        $client->address = $request->input('address');
+        $client->city = $request->input('city');
+        $client->country = $request->input('country');
+        $client->postal_code = $request->input('postal_code');
+        $client->user_id = $request->input('user_id');
+        
+        $client->save();
+
+        return response()->json([
+            'message'=>'Customer Updated successfully',
+          ],201);
     }
 
     /**
@@ -83,5 +144,7 @@ class ClientController extends Controller
     public function destroy($id)
     {
         //
+        $client = Client::find($id);
+        $client->delete();
     }
 }

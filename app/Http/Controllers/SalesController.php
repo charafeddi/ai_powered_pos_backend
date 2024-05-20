@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Sales;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Sale;
+use Carbon\Carbon;
+
 class SalesController extends Controller
 {
     /**
@@ -12,10 +15,23 @@ class SalesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($userId)
-    {
-        //
-        return response()->json(Sales::where('user_id', $userId)->get());
+{
+    $sales = Sale::where('user_id', $userId)->get();
+    $message = [];
+
+    foreach ($sales as $sale) {
+        $message[] = [
+            'id' =>$sale->id,
+            'name' => $sale->client->name,
+            'total_amount' => $sale->total_amount,
+            'amount_paid' => $sale->amount_paid ?? 0,
+            'paid' => $sale->paid ,
+            'date' => Carbon::parse($sale->created_at)->toFormattedDateString()
+        ];
     }
+
+    return response()->json($message);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -46,8 +62,31 @@ class SalesController extends Controller
      */
     public function show($id)
     {
-        //
-        return response()->json(Sales::find($id));
+        // 
+        $sale = Sale::find($id);
+        $message =[
+            'recipient' => $sale->client,
+            'table'=> $sale->salesItem->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'quantity' => $item->quantity,
+                    'unit_price' => $item->unit_price,
+                    'subtotal' => $item->subtotal,
+                    'product_id' => $item->product_id,
+                    'product' => $item->product, // assuming the relationship is defined as "product" in the SalesItem model
+                ];
+            }),
+            'sale'=>[
+                'id' =>$sale->id,
+                'total_amount' => $sale->total_amount,
+                'amount_paid' => $sale->amount_paid ?? 0,
+                'date' => Carbon::parse($sale->created_at)->toFormattedDateString()
+            ]
+                
+    
+        ];
+                
+        return response()->json( $message);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProductUnit;
+use App\Models\ProductType;
 
 class ProductTypeController extends Controller
 {
@@ -15,7 +15,7 @@ class ProductTypeController extends Controller
     public function index()
     {
         //
-        return response()->json(ProductUnit::all());
+        return response()->json(ProductType::all());
 
     }
 
@@ -49,7 +49,7 @@ class ProductTypeController extends Controller
     public function show($id)
     {
         //
-        return response()->json(ProductUnit::find($id));
+        return response()->json(ProductType::find($id));
     }
 
     /**

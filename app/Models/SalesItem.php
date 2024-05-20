@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SalesItem extends Model
 {
@@ -13,11 +15,13 @@ class SalesItem extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     
-    public function product(){
-        return $this->hasMany(Product::class);
+    public function product():BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     } 
 
-    public function sales(){
-        return $this->belongsTo(Sales::class);
+    public function sale():BelongsTo
+    {
+        return $this->belongsTo(Sale::class);
     }
 }

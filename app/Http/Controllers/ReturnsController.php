@@ -1,20 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class ReturnsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($user_id)
     {
         //
+        
+        return response()->json();
     }
 
     /**

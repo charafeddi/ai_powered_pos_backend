@@ -17,9 +17,11 @@ class CreateSalesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->float('total_amount');
-            $table->bigInteger('users_id')->unsigned()->nullable();
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('set null');
-            $table->bigInteger('client_id')->unsigned()->unique();
+            $table->float('amount_paid')->nullable(); // add this line
+            $table->boolean('paid')->default(false); // add this line
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->bigInteger('client_id')->unsigned();
             $table->foreign('client_id')->references('id')->on('clients');
             $table->softDeletes();
         });
