@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Sale;
+use App\Models\SaleItem;
+use App\Models\Product;
 use Carbon\Carbon;
-
+use App\Http\Requests\ObjectRequest;
 class SalesController extends Controller
 {
     /**
@@ -49,9 +51,45 @@ class SalesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ObjectRequest $request)
     {
         //
+         $sale = Sale::create(
+            [
+                'client_id' =>  $request->input('client_id'),
+                'total_amount' => $request->input('total_amount'),
+                'amount_paid' =>  $request->input('amount_paid'),
+                'paid' => $request->input('paid'),
+                'user_id' => $request->input('user_id'),
+            ]
+        );
+
+        foreach($request->input('table') as $item){
+             // Find the product by ID
+             $product = Product::find($item['product']['id']);
+             if ($product) {
+                 // Update product quantity
+                 $product->quantity -= $item['quantity'];
+                 $product->save();
+ 
+                 // Create sale item
+                 SaleItem::create([
+                     'quantity' => $item['quantity'],
+                     'unit_price' => $item['unit_price'],
+                     'subtotal' => $item['unit_price'] * $item['quantity'],
+                     'sale_id' => $sale->id,
+                     'product_id' => $item['product']['id'],
+                 ]);
+             } else {
+                 return response()->json([
+                     'message' => 'Product not found: ' . $item['product']['id']
+                 ], 404);
+             }
+        }
+
+        return response()->json([
+            'message'=> 'Sale and Sale Items are add successfully'
+        ],201);
     }
 
     /**
@@ -66,7 +104,7 @@ class SalesController extends Controller
         $sale = Sale::find($id);
         $message =[
             'recipient' => $sale->client,
-            'table'=> $sale->salesItem->map(function($item) {
+            'table'=> $sale->saleItems->map(function($item) {
                 return [
                     'id' => $item->id,
                     'quantity' => $item->quantity,
@@ -107,9 +145,45 @@ class SalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ObjectRequest $request, $id)
     {
-        //
+        // update sale 
+        $sale = Sale::find($id);
+         
+        $sale-> client_id = $request->input('client_id');
+        $sale->total_amount = $request->input('total_amount');
+        $sale->amount_paid =  $request->input('amount_paid');
+        $sale->paid = $request->input('paid');
+        $sale->user_id = $request->input('user_id');
+        $sale->save();
+
+        foreach($request->input('table') as $item){
+             // Find the product by ID
+             $product = Product::find($item['product']['id']);
+             if ($product) {
+                 // Update product quantity
+                 $product->quantity -= $item['quantity'];
+                 $product->save();
+ 
+                 // update sale item
+                $saleItem = SaleItem::find($item['id']);
+
+                     $saleItem->quantity = $item['quantity'];
+                     $saleItem->unit_price = $item['unit_price'];
+                     $saleItem->subtotal = $item['unit_price'] * $item['quantity'];
+                     $saleItem->sale_id = $sale->id;
+                     $saleItem->product_id = $item['product']['id'];
+                     $saleItem->save();
+             } else {
+                 return response()->json([
+                     'message' => 'Product not found: ' . $item['product']['id']
+                 ], 404);
+             }
+        }
+
+        return response()->json([
+            'message'=> 'Sale and Sale Items are Updated successfully'
+        ],201);
     }
 
     /**
@@ -120,6 +194,6 @@ class SalesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }

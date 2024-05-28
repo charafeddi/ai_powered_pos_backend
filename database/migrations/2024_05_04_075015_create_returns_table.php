@@ -16,7 +16,7 @@ class CreateReturnsTable extends Migration
         Schema::create('returns', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('sale_item_id')->unsigned();
-            $table->foreign('sale_item_id')->references('id')->on('sales_items');
+            $table->foreign('sale_item_id')->references('id')->on('sale_items');
             $table->integer('quantity_returned');
             $table->text('reason')->nullable();
             $table->timestamps();

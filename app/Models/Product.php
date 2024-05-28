@@ -43,7 +43,7 @@ class Product extends Model
     }
     public function salesItem():HasOne
     {
-        return $this->hasOne(SalesItem::class);
+        return $this->hasOne(SaleItem::class);
     }
     
     public function user():BelongsTo

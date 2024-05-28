@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Sale;
-use App\Models\SalesItem;
+use App\Models\SaleItem;
 class SalesSeeder extends Seeder
 {
     /**
@@ -19,7 +19,7 @@ class SalesSeeder extends Seeder
 
         foreach ($sales as $value) {
             # code...
-            SalesItem::factory()->count(10)->create(
+            SaleItem::factory()->count(10)->create(
                 ["sale_id" => $value->id,]
             );
         }

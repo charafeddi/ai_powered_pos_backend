@@ -11,7 +11,13 @@ class Sale extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    protected $fillable =[
+        'total_amount',
+        'amount_paid',
+        'paid',
+        'user_id',
+        'client_id',
+    ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     
     public function client():BelongsTo
@@ -28,7 +34,7 @@ class Sale extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function salesItem (){
-        return $this->hasMany(SalesItem::class);
+    public function saleItems (){
+        return $this->hasMany(SaleItem::class);
     }
 }

@@ -38,6 +38,9 @@ class TodoController extends Controller
     public function create()
     {
         //
+        $validator = Validator::make($request->all(),[
+
+        ]);     
     }
 
     /**
