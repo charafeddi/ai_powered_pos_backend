@@ -22,10 +22,13 @@ class SaleItemFactory extends Factory
      */
     public function definition()
     {
+        $quantity = $this->faker->numberBetween(1, 20);
+        $unit_price = $this->faker->numberBetween(1, 200);
+
         return [
-            'quantity' => $this->faker->numberBetween(1, 100),
-            'unit_price' => $this->faker->numberBetween(1, 100),
-            'subtotal' => $this->faker-> numberBetween(100, 1000),
+            'quantity' => $quantity,
+            'unit_price' => $unit_price,
+            'subtotal' => $quantity * $unit_price,
             'product_id' => $this->faker->unique()->randomElement(Product::pluck("id")),
         ];
     }

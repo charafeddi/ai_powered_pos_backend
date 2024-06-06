@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AnalyticsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +30,7 @@ Route::group([
     Route::get('user-profile', 'App\Http\Controllers\AuthController@userProfile');
 });
 
+// Articles
 Route::get('articles', 'App\Http\Controllers\ArticleController@index');
 Route::get('articles/{article}', 'App\Http\Controllers\ArticleController@show');
 Route::post('articles', 'App\Http\Controllers\ArticleController@store');
@@ -43,7 +44,6 @@ Route::put('products/{id}', 'App\Http\Controllers\ProductController@update');
 Route::post('products', 'App\Http\Controllers\ProductController@store');
 Route::delete('products/{id}', 'App\Http\Controllers\ProductController@delete');
 
-
 //Client
 Route::get('client/{user_id}', 'App\Http\Controllers\ClientController@index');
 Route::get('client/{id}/show', 'App\Http\Controllers\ClientController@show');
@@ -56,7 +56,6 @@ Route::get('supplier/{id}/show','App\Http\Controllers\SupplierController@show');
 Route::put('supplier/{id}', 'App\Http\Controllers\SupplierController@update');
 Route::post('supplier', 'App\Http\Controllers\SupplierController@store');
 Route::delete('supplier/{id}', 'App\Http\Controllers\SupplierController@delete');
-
 
 // ProductType 
 Route::get('ProductType','App\Http\Controllers\ProductTypeController@index');
@@ -76,3 +75,14 @@ Route::get('todo/{id}/done','App\Http\Controllers\TodoController@importFinishedT
 Route::put('todo/{id}','App\Http\Controllers\TodoController@update');
 Route::post('todo/','App\Http\Controllers\TodoController@store');
 Route::delete('todo/{id}', 'App\Http\Controllers\TodoController@destroy');
+
+// Analytics 
+Route::get('/analytics/{id}/earnings', [AnalyticsController::class, 'getEarnings']);
+Route::get('/analytics/{id}/net-profit', [AnalyticsController::class, 'getNetProfit']);
+Route::get('/analytics/{id}/popular-products', [AnalyticsController::class, 'getPopularProducts']);
+Route::get('/analytics/{id}/inventory-levels', [AnalyticsController::class, 'getInventoryLevels']);
+Route::get('/analytics/{id}/total-sales', [AnalyticsController::class, 'getTotalSales']);
+Route::get('/analytics/{id}/supplier-performance', [AnalyticsController::class, 'getSupplierPerformance']);
+Route::get('/analytics/{id}/Low-Stock-Alerts', [AnalyticsController::class, 'getLowInStockProduct']);
+Route::get('analytics/{id}/sales-trends', [AnalyticsController::class, 'getSalesTrends']);
+Route::get('analytics/{id}/peak-sales-hours', [AnalyticsController::class, 'getPeakSalesHours']);

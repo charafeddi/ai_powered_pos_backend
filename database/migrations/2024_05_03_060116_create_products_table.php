@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->decimal('prix_vente', 8, 2)->nullable();
             $table->decimal('discount', 5, 2)->nullable();
             $table->timestamps();
-            $table->bigInteger('product_type_id')->unsigned();
+            $table->bigInteger('product_type_id')->unsigned()->nullable();
             $table->foreign('product_type_id')->references('id')->on('products_types');
 
             $table->bigInteger('supplier_id')->unsigned()->nullable();

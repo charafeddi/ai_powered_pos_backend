@@ -24,12 +24,14 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $prix_achat = $this->faker->randomFloat(2, 1, 100);
         return [
             'product_code'=>$this->faker->unique()->ean8,
             'designation' => $this->faker->words(3, true),
             'quantity' => $this->faker->randomNumber(3),
-            'prix_achat' => $this->faker->randomFloat(2, 1, 100),
-            'prix_vente' => $this->faker->randomFloat(2, 1, 100),
+            'discount' => $this->faker->randomElement([0, 10, 15, 20]),
+            'prix_achat' => $prix_achat,
+            'prix_vente' => $this->faker->randomFloat(2, $prix_achat + 1, $prix_achat + 100),// to make sure that the prix vent is always bigger the prix achat 
             'product_type_id' =>  ProductType::inRandomOrder()->first()->id,
             'product_unit_id' => ProductUnit::inRandomOrder()->first()->id,
             'user_id' => User::find(1)->id,

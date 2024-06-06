@@ -20,7 +20,7 @@ class ProductController extends Controller
         
         $total = 0;
         foreach($products as $product){
-            $total += ($product->prix_achat * $product->quantity) - ($product->prix_achat * $product->quantity * $product->discount / 100);
+            $total += ($product->prix_achat * $product->quantity) - ($product->prix_achat * $product->quantity * ($product->discount/100));
         }
 
         $message = [
@@ -48,7 +48,7 @@ class ProductController extends Controller
         'products.*.prix_achat' => 'required|numeric|min:0',
         'products.*.prix_vente' => 'nullable|numeric|min:0',
         'products.*.discount' => 'nullable|numeric|min:0|max:100',
-        'products.*.product_type_id' => 'required|exists:products_types,id',
+        'products.*.product_type_id' => 'nullable|exists:products_types,id',
         'products.*.supplier_id' => 'nullable|exists:suppliers,id',
         'products.*.product_unit_id' => 'nullable|exists:products_unit,id',
         'products.*.user_id' => 'required|exists:users,id'
@@ -72,9 +72,9 @@ class ProductController extends Controller
                 'prix_achat' => $product['prix_achat'],
                 'prix_vente' => $product['prix_vente'] ?? null,
                 'discount' => $product['discount'] ?? null,
-                'product_type_id' => $product['product_type_id'],
+                'product_type_id' => $product['product_type_id'] ?? null,
                 'supplier_id' => $product['supplier_id'] ?? null,
-                'product_unit_id' => $product['product_unit_id'],
+                'product_unit_id' => $product['product_unit_id'] ?? null,
                 'user_id' => $product['user_id']
             ]);
         }
@@ -87,9 +87,9 @@ class ProductController extends Controller
             'prix_achat' => $request->input('products.prix_achat'),
             'prix_vente' => $request->input('products.prix_vente') ?? null,
             'discount' => $request->input('products.discount') ?? null,
-            'product_type_id' => $request->input('products.product_type_id'),
+            'product_type_id' => $request->input('products.product_type_id') ?? null,
             'supplier_id' => $request->input('products.supplier_id') ?? null,
-            'product_unit_id' => $request->input('products.product_unit_id'),
+            'product_unit_id' => $request->input('products.product_unit_id') ?? null,
             'user_id' => $request->input('products.user_id')
         ]);
     }

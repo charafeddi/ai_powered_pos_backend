@@ -24,7 +24,6 @@ class SaleFactory extends Factory
     public function definition()
     {
         return [
-            
             'total_amount' => $this->faker->randomFloat(3, 1, 1000), 
             'amount_paid'=> null,
             'user_id'=>  User::find(1)->id,
