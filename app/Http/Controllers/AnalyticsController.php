@@ -175,7 +175,7 @@ class AnalyticsController extends Controller
         $salesQuery = Sale::where('user_id', $User_id)
             ->select(
                 DB::raw('HOUR(created_at) as hour'),
-                DB::raw('COALESCE(SUM(amount_paid), 0) as total_sales')
+                DB::raw('COALESCE(SUM(total_amount), 0) as total_sales')
             )
             ->groupBy('hour')
             ->orderBy('hour', 'asc');

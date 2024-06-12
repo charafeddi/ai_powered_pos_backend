@@ -22,14 +22,18 @@ class SaleItemFactory extends Factory
      */
     public function definition()
     {
+        // Select a random product
+        $product = Product::inRandomOrder()->first();
+        
+        // Ensure the unit_price is always greater than prix_achat
         $quantity = $this->faker->numberBetween(1, 20);
-        $unit_price = $this->faker->numberBetween(1, 200);
+        $unit_price = $this->faker->numberBetween($product->prix_achat + 1, $product->prix_achat + 200); // Ensure unit price is greater than prix_achat
 
         return [
             'quantity' => $quantity,
             'unit_price' => $unit_price,
             'subtotal' => $quantity * $unit_price,
-            'product_id' => $this->faker->unique()->randomElement(Product::pluck("id")),
+            'product_id' => $product->id,
         ];
     }
 }
