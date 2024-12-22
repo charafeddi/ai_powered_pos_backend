@@ -86,3 +86,5 @@ Route::get('/analytics/{id}/supplier-performance', [AnalyticsController::class, 
 Route::get('/analytics/{id}/Low-Stock-Alerts', [AnalyticsController::class, 'getLowInStockProduct']);
 Route::get('analytics/{id}/sales-trends', [AnalyticsController::class, 'getSalesTrends']);
 Route::get('analytics/{id}/peak-sales-hours', [AnalyticsController::class, 'getPeakSalesHours']);
+Route::get('analytics/{id}/getTop10PopularProducts', [AnalyticsController::class, 'getTop10PopularProducts']);
+
